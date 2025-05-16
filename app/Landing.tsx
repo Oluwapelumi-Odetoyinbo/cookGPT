@@ -1,10 +1,13 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Button } from 'react-native'
 import React from 'react'
 import { Marquee } from '@animatereactnative/marquee'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Colors from '@/services/Colors'
+import { useLogto } from '@logto/rn';
 
 export default function Landing() {
+   const { signIn, signOut, isAuthenticated } = useLogto();
+   
   const imageList = [
     require('./../assets/images/images/1.jpg'),
     require('./../assets/images/images/c1.jpg'),
@@ -69,6 +72,7 @@ export default function Landing() {
             fontFamily: 'outfit-bold',
             fontSize: 30,
             textAlign: 'center',
+            marginTop: 20,
           }}
         >CookGPT🥗🔍 | Find, Create & Enjoy Delicious Recipes!
         </Text>
@@ -81,18 +85,19 @@ export default function Landing() {
         }}>Generate delicious recipes in seconds with the power of AI! 🍔
         </Text>
         <TouchableOpacity 
-        onPress={() => console.log('Get Started')}
+       onPress={async () => signIn('exp://192.168.0.109:8081')} 
         style={styles.button}>
           <Text style={{
-            textAlign: 'center',
+            textAlign: 'center',  
             color: Colors.WHITE,
             fontSize: 17,
             fontFamily: 'outfit',
-            marginTop: 7,
+            marginTop: 3,
           }}>
             Get Started
           </Text>
         </TouchableOpacity >
+          <Button title="Sign out" onPress={async () => signOut()} />
 
       </View>
     </GestureHandlerRootView>
@@ -101,15 +106,15 @@ export default function Landing() {
 
 const styles = StyleSheet.create({
   image: {
-    width: 160,
-    height: 160,
+    width: 100,
+    height: 100,
     borderRadius: 25
   },
   imageContainer: {
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
-    marginTop: 30,
+    marginTop: 20,
   },
   button: {
     backgroundColor: Colors.PRIMARY,
